@@ -31,12 +31,14 @@ delta report (resolved / new / regressed)
 
 ## How to run it
 
-1. **Audit** — `/saw scout "fix UX issues from audit"` after running the cold-start audit. Or: give the SAW scout both the findings report path and the feature description.
-2. **Review** — Read the IMPL doc. Verify wave structure makes sense given the severity tiers. UX-critical findings are natural Wave 0 or Wave 1 candidates.
-3. **Fix** — `/saw wave --auto` to execute all waves.
-4. **Rebuild** — Rebuild the sandbox container from the fixed source.
-5. **Re-audit** — `/cold-start-audit run <container> <tool>` against the rebuilt container.
-6. **Compare** — Read the new findings against the original. Look for: issues resolved, regressions introduced, new issues surfaced.
+1. **Choose sandbox mode** — `/cold-start-audit mode <tool>` to get a recommendation (container / local / worktree). Container for destructive ops; local for tools with redirectable state; worktree for directory-level tools.
+2. **Audit** — `/cold-start-audit run <tool> --mode <mode> [mode-args]`. Report lands in `docs/cold-start-audit.md`.
+3. **Scout** — `/saw scout "fix UX issues from audit"` with the findings report path. The scout reads severity tiers and area groupings to produce file ownership and wave structure.
+4. **Review** — Read the IMPL doc. UX-critical findings are natural Wave 0 or Wave 1 candidates.
+5. **Fix** — `/saw wave --auto` to execute all waves.
+6. **Refresh sandbox** — For container mode: rebuild the image from fixed source. For local/worktree: no rebuild needed — create a new temp dir for a clean state.
+7. **Re-audit** — `/cold-start-audit run <tool> --mode <mode> [mode-args]` against the refreshed sandbox.
+8. **Compare** — Read the new findings against the original. Look for: issues resolved, regressions introduced, new issues surfaced.
 
 ## Severity tiers map to wave priority
 

@@ -5,7 +5,7 @@ AI agents compose. A cold-start audit finds what's broken. A parallel fix wave r
 ## Skills
 
 - [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) — Parallel agent coordination protocol. A scout maps file ownership and interface contracts before any agent starts; parallel agents execute in waves with build and test gates between them. Guarantees agents can work concurrently without conflicts.
-- [agentic-cold-start-audit](https://github.com/blackwell-systems/agentic-cold-start-audit) — Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in containerized sandboxes and produce severity-tiered findings reports with exact reproduction steps.
+- [agentic-cold-start-audit](https://github.com/blackwell-systems/agentic-cold-start-audit) — Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in sandboxed environments (container, local env var, or worktree) and produce severity-tiered findings reports with exact reproduction steps.
 
 ## Workflows
 
