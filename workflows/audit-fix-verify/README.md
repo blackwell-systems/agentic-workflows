@@ -1,6 +1,6 @@
 # Audit-Fix-Verify
 
-Use [cold-start-audit](https://github.com/blackwell-systems/ai-cold-start-audit) to find issues, [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) to fix them in parallel, re-audit to confirm resolution.
+Use [cold-start-audit](https://github.com/blackwell-systems/agentic-cold-start-audit) to find issues, [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) to fix them in parallel, re-audit to confirm resolution.
 
 ## Why
 
