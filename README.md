@@ -10,7 +10,3 @@ A collection of AI agent skills and the workflows that compose them.
 ## Workflows
 
 - [Audit-Fix-Verify](workflows/audit-fix-verify/) — Use cold-start-audit to find issues, SAW to fix them in parallel, re-audit to confirm resolution.
-
-## Philosophy
-
-These tools were designed independently but compose because they share a common artifact format — structured, severity-tiered markdown with exact reproduction steps. The audit's output is the scout's input. The loop is repeatable as a release gate.
