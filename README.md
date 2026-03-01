@@ -1,5 +1,7 @@
 # agentic-workflows
 
+[![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
+
 AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable — and a reference implementation with hard numbers from six complete cycles.
 
 ---
