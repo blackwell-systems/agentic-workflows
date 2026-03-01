@@ -66,7 +66,7 @@ Three-part series on scout-and-wave:
 
 1. [A Coordination Pattern for Parallel AI Agents](https://blog.blackwell-systems.com/posts/scout-and-wave/) — The pattern, the scout's role, and a worked example of wave structure and file ownership.
 2. [What Dogfooding Taught Us](https://blog.blackwell-systems.com/posts/scout-and-wave-part2/) — The audit-fix-audit loop in practice: overhead measurement, Quick mode for small scopes, and the bootstrap problem (using SAW to build SAW).
-3. [The Skill Is Software](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/) — How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
+3. [Five Failures, Five Fixes](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/) — How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
 
 ---
 
