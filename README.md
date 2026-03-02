@@ -4,7 +4,11 @@
 
 AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable.
 
-Each skill is a protocol-bearing unit: explicit inputs, explicit outputs, defined behavior at its boundaries. Those contracts are what make natural language processing reliable at scale. Skills should be independently useful, but more powerful in combination.
+Each skill is a protocol-bearing unit: explicit inputs, explicit outputs, defined behavior at its boundaries. The LLM executes the steps; the protocol enforces the interface. Handoffs become as deterministic as function calls, even though both sides run on natural language instructions.
+
+For multi-agent work, the same principle applies at the coordination layer. SAW's IMPL doc is a shared contract all agents write to and read from. Parallel execution is safe not because agents trust each other, but because they're all operating against the same structure.
+
+Skills are independently useful, but more powerful in combination.
 
 ---
 
