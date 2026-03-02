@@ -33,6 +33,12 @@ formula updated, diff confirmed, committed, pushed to tap
 brew update && brew upgrade <tool>
 ```
 
+## Prerequisites
+
+- `gh` CLI authenticated: `gh auth status`
+- Goreleaser (or equivalent) configured in CI to attach a `checksums.txt` asset to the release — this is how the formula updater resolves SHA256 values without downloading binaries locally
+- Tap repo accessible: cloned locally or reachable for cloning via `gh`
+
 ## How to run it
 
 1. **Install both skills** — copy `github-release-engineer.md` and `homebrew-formula-updater.md` into `~/.claude/commands/`.
@@ -54,12 +60,6 @@ brew update && brew upgrade <tool>
    brew update && brew upgrade <tool>
    <tool> --version
    ```
-
-## Prerequisites
-
-- `gh` CLI authenticated: `gh auth status`
-- Goreleaser (or equivalent) configured in CI to attach a `checksums.txt` asset to the release — this is how the formula updater resolves SHA256 values without downloading binaries locally
-- Tap repo accessible: cloned locally or reachable for cloning via `gh`
 
 ## What each skill handles
 
