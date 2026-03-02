@@ -14,10 +14,15 @@ Parallel agent coordination protocol. Before any agent starts, a scout analyzes 
 
 Key guarantees: agents work concurrently without file conflicts; waves enforce dependency order; tests must pass before the next wave starts.
 
+<details>
+<summary>Execution flow diagram</summary>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/saw-scout-wave-dark.svg">
   <img src="docs/diagrams/saw-scout-wave-light.svg" alt="SAW scout + wave execution flow" style="max-width: 100%;">
 </picture>
+
+</details>
 
 ### [github-release-engineer](https://github.com/blackwell-systems/github-release-engineer)
 
