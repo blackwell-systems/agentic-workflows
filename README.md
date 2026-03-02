@@ -70,30 +70,6 @@ See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, 
 
 ---
 
-## Reference Implementation
-
-[brewprune](https://github.com/blackwell-systems/brewprune) — a Homebrew package usage tracker and removal advisor — is the primary proof-of-concept for both tools and the Audit-Fix-Verify workflow. Six complete audit→fix cycles.
-
-**Aggregate numbers:**
-- 52 agents across 6 rounds
-- 118 findings fixed across 79 files
-
-**Round 2:** 11 agents, single wave, +4,021 lines added, all tests green.
-
-**Round 5:** The pre-implementation check eliminated 12 of 24 findings before any agent launched — they had already been implemented. Eight minutes saved per run, work that would otherwise have been duplicated.
-
-**Round 6:** 8 agents, single wave. Wall-clock: 13 minutes. Estimated sequential: 64 minutes. **80% faster than sequential.**
-
-**Notable incidents:**
-
-*Round 4 — scout refused to write its own output.* The scout's role was described as "read-only investigation." The scout interpreted that literally and declined to write the IMPL doc it was supposed to produce. Fixed with explicit permission language: the scout's investigation is read-only, but producing the IMPL doc is its required output. One-line prompt change; logged in the protocol.
-
-*Round 5 — self-healing worktree.* Two agents independently hit a state where `cd` had put them in a broken directory. Both triggered the cd-then-verify recovery path built into the skill, recovered without human intervention, and documented their own recovery in their completion reports. The protocol held under real failure conditions.
-
-The brewprune `docs/` directory contains every IMPL doc and audit report from all six rounds. The full progression — what broke, what was fixed, what regressed, what the loop caught — is documented in [brewprune-example.md](workflows/audit-fix-verify/brewprune-example.md).
-
----
-
 ## Blog
 
 Three-part series on scout-and-wave:
