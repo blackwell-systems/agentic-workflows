@@ -4,13 +4,7 @@
 
 AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable.
 
-Each skill is built to compose. A skill isn't just a prompt that does something. It's a protocol-bearing unit with explicit inputs, explicit outputs, and defined behavior at its boundaries. Those contracts are what make natural language processing reliable at scale.
-
-When a release engineer completes a release, it hands off a structured report: version, tag SHA, release URL, and the full asset list with checksums resolved. The formula updater accepts exactly that structure and needs nothing else. The LLM executes the steps; the protocol enforces the interface. The result is handoff behavior as deterministic as a function call, even though both sides are running on natural language instructions.
-
-The same principle applies to multi-agent coordination. SAW's IMPL doc is a shared contract that all agents write to and read from: file ownership, interface definitions, wave structure, completion reports. Agents don't need to communicate directly; the protocol mediates. That's what makes parallel execution safe: not trust between agents, but the structure they're all operating against.
-
-Skills should be independently useful, but more powerful in combination. Structured I/O is what makes that combination reliable.
+Each skill is a protocol-bearing unit: explicit inputs, explicit outputs, defined behavior at its boundaries. Those contracts are what make natural language processing reliable at scale. Skills should be independently useful, but more powerful in combination.
 
 ---
 
