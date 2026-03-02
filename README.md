@@ -4,11 +4,11 @@
 
 AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable.
 
-Each skill is built to compose. A skill isn't just a prompt that does something — it's a protocol-bearing unit with explicit inputs, explicit outputs, and defined behavior at its boundaries. Those contracts are what make natural language processing reliable at scale.
+Each skill is built to compose. A skill isn't just a prompt that does something. It's a protocol-bearing unit with explicit inputs, explicit outputs, and defined behavior at its boundaries. Those contracts are what make natural language processing reliable at scale.
 
 When a release engineer completes a release, it hands off a structured report: version, tag SHA, release URL, and the full asset list with checksums resolved. The formula updater accepts exactly that structure and needs nothing else. The LLM executes the steps; the protocol enforces the interface. The result is handoff behavior as deterministic as a function call, even though both sides are running on natural language instructions.
 
-The same principle applies to multi-agent coordination. SAW's IMPL doc is a shared contract that all agents write to and read from — file ownership, interface definitions, wave structure, completion reports. Agents don't need to communicate directly; the protocol mediates. That's what makes parallel execution safe: not trust between agents, but the structure they're all operating against.
+The same principle applies to multi-agent coordination. SAW's IMPL doc is a shared contract that all agents write to and read from: file ownership, interface definitions, wave structure, completion reports. Agents don't need to communicate directly; the protocol mediates. That's what makes parallel execution safe: not trust between agents, but the structure they're all operating against.
 
 Skills should be independently useful, but more powerful in combination. Structured I/O is what makes that combination reliable.
 
@@ -18,7 +18,7 @@ Skills should be independently useful, but more powerful in combination. Structu
 
 ### [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) (SAW)
 
-Parallel agent coordination protocol. Before any agent starts, a scout analyzes the codebase to produce file ownership maps and interface contracts. Agents then execute in waves with build and test gates between them. The scout's pre-implementation check runs first — it filters items that are already implemented before agents launch, eliminating wasted work.
+Parallel agent coordination protocol. Before any agent starts, a scout analyzes the codebase to produce file ownership maps and interface contracts. Agents then execute in waves with build and test gates between them. The scout's pre-implementation check runs first, filtering items that are already implemented before agents launch and eliminating wasted work.
 
 Key guarantees: agents work concurrently without file conflicts; waves enforce dependency order; tests must pass before the next wave starts.
 
@@ -34,13 +34,13 @@ Key guarantees: agents work concurrently without file conflicts; waves enforce d
 
 ### [github-release-engineer](https://github.com/blackwell-systems/github-release-engineer)
 
-Automated GitHub release pipeline. Runs pre-flight checks, detects or confirms the version, promotes the changelog entry, creates an annotated tag, pushes it, watches CI to completion, waits for release artifacts, and verifies the published release. Each step gates the next — failures surface immediately with enough context to fix them.
+Automated GitHub release pipeline. Runs pre-flight checks, detects or confirms the version, promotes the changelog entry, creates an annotated tag, pushes it, watches CI to completion, waits for release artifacts, and verifies the published release. Each step gates the next; failures surface immediately with enough context to fix them.
 
 On completion, the release engineer hands off to companion skills (e.g. `homebrew-formula-updater`) with the full release context: version, tag SHA, release URL, and asset list with checksums already resolved.
 
 ### [homebrew-formula-updater](https://github.com/blackwell-systems/homebrew-formula-updater)
 
-Updates a Homebrew tap formula to a new release. Locates the tap on disk (or clones it), verifies the working tree is clean, resolves checksums from the GitHub release asset, updates the formula's version, URLs, and SHA256 fields — nothing else — shows a diff for confirmation, and commits and pushes.
+Updates a Homebrew tap formula to a new release. Locates the tap on disk (or clones it), verifies the working tree is clean, resolves checksums from the GitHub release asset, updates the formula's version, URLs, and SHA256 fields only, shows a diff for confirmation, and commits and pushes.
 
 Designed to be invoked by `github-release-engineer` at the end of a release, or standalone. Checksum sourcing priority: checksum file attached to the release → checksums passed by the release engineer → ask user.
 
@@ -48,7 +48,7 @@ Designed to be invoked by `github-release-engineer` at the end of a release, or 
 
 Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in sandboxed environments (Docker container, local env var isolation, or git worktree) and produce severity-tiered findings reports with exact reproduction steps.
 
-The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report — severity tier, affected area, reproduction steps — formatted to feed directly into SAW.
+The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW.
 
 ---
 
@@ -60,7 +60,7 @@ The three sandbox modes cover the full range of tool types: container for destru
 2. On success, the release engineer automatically invokes `/homebrew-formula-updater` with the release context. The formula updater reads checksums from the attached `checksums.txt`, updates the tap formula, and pushes.
 3. Run `brew update && brew upgrade <tool>` to confirm the published formula installs cleanly.
 
-The two skills compose because the release engineer's completion report carries exactly what the formula updater needs — version, tag SHA, release URL, and checksums — with no manual translation step. The formula updater's checksum resolution falls back gracefully if the release engineer didn't pass them.
+The two skills compose because the release engineer's completion report carries exactly what the formula updater needs: version, tag SHA, release URL, and checksums, with no manual translation step. The formula updater's checksum resolution falls back gracefully if the release engineer didn't pass them.
 
 See [the full workflow doc](workflows/release-publish/) for setup, configuration, and what to do when CI fails mid-release.
 
@@ -72,7 +72,7 @@ See [the full workflow doc](workflows/release-publish/) for setup, configuration
 
 The two tools compose because their artifact formats are compatible. The audit produces severity-tiered findings grouped by area; the SAW scout reads those tiers and groupings directly to decide wave order and agent assignments. No manual translation step.
 
-The deeper insight: the audit's lack-of-context is the UX signal — an agent that can't figure out what to do next is faithfully simulating a new user hitting the same wall. SAW's pre-implementation check then filters already-fixed items before agents run, so each round only works on what's actually broken.
+The deeper insight: the audit's lack-of-context is the UX signal. An agent that can't figure out what to do next is faithfully simulating a new user hitting the same wall. SAW's pre-implementation check then filters already-fixed items before agents run, so each round only works on what's actually broken.
 
 See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, sandbox mode selection, severity-to-wave mapping, and what the re-audit output means.
 
@@ -82,9 +82,9 @@ See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, 
 
 Cold-start-audit and scout-and-wave solve adjacent problems, and they're designed to hand off to each other cleanly.
 
-The audit produces findings in a format the scout can consume directly: severity tiers map to wave priority (UX-critical → Wave 0 or 1, UX-improvement → Wave 1 or 2, UX-polish → last), and area groupings map to agent assignments. The scout doesn't need a reformatted brief — it reads the audit report as-is.
+The audit produces findings in a format the scout can consume directly: severity tiers map to wave priority (UX-critical → Wave 0 or 1, UX-improvement → Wave 1 or 2, UX-polish → last), and area groupings map to agent assignments. The scout doesn't need a reformatted brief. It reads the audit report as-is.
 
-The more important connection is conceptual. The audit's signal is the places where an agent with no context gets stuck or confused. That's not a limitation of the audit methodology — it's the whole point. A new user hitting the same wall is the UX failure you're trying to find. The audit surfaces those failures with exact reproduction steps. SAW then fixes them in parallel with verified coordination.
+The more important connection is conceptual. The audit's signal is the places where an agent with no context gets stuck or confused. That's not a limitation of the audit methodology. It's the whole point. A new user hitting the same wall is the UX failure you're trying to find. The audit surfaces those failures with exact reproduction steps. SAW then fixes them in parallel with verified coordination.
 
 The pre-implementation check closes the loop on round-over-round efficiency: each re-audit produces a smaller findings set as the tool improves, and SAW filters whatever was already fixed before agents run. The loop gets faster as the tool gets better.
 
@@ -94,6 +94,6 @@ The pre-implementation check closes the loop on round-over-round efficiency: eac
 
 Three-part series on scout-and-wave:
 
-1. [A Coordination Pattern for Parallel AI Agents](https://blog.blackwell-systems.com/posts/scout-and-wave/) — The pattern, the scout's role, and a worked example of wave structure and file ownership.
-2. [What Dogfooding Taught Us](https://blog.blackwell-systems.com/posts/scout-and-wave-part2/) — The audit-fix-audit loop in practice: overhead measurement, Quick mode for small scopes, and the bootstrap problem (using SAW to build SAW).
-3. [Five Failures, Five Fixes](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/) — How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
+1. [A Coordination Pattern for Parallel AI Agents](https://blog.blackwell-systems.com/posts/scout-and-wave/): The pattern, the scout's role, and a worked example of wave structure and file ownership.
+2. [What Dogfooding Taught Us](https://blog.blackwell-systems.com/posts/scout-and-wave-part2/): The audit-fix-audit loop in practice: overhead measurement, Quick mode for small scopes, and the bootstrap problem (using SAW to build SAW).
+3. [Five Failures, Five Fixes](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/): How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
