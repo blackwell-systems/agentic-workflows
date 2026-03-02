@@ -19,6 +19,18 @@ Key guarantees: agents work concurrently without file conflicts; waves enforce d
   <img src="docs/diagrams/saw-scout-wave-light.svg" alt="SAW scout + wave execution flow" style="max-width: 100%;">
 </picture>
 
+### [github-release-engineer](https://github.com/blackwell-systems/github-release-engineer)
+
+Automated GitHub release pipeline. Runs pre-flight checks, detects or confirms the version, promotes the changelog entry, creates an annotated tag, pushes it, watches CI to completion, waits for release artifacts, and verifies the published release. Each step gates the next — failures surface immediately with enough context to fix them.
+
+On completion, the release engineer hands off to companion skills (e.g. `homebrew-formula-updater`) with the full release context: version, tag SHA, release URL, and asset list with checksums already resolved.
+
+### [homebrew-formula-updater](https://github.com/blackwell-systems/homebrew-formula-updater)
+
+Updates a Homebrew tap formula to a new release. Locates the tap on disk (or clones it), verifies the working tree is clean, resolves checksums from the GitHub release asset, updates the formula's version, URLs, and SHA256 fields — nothing else — shows a diff for confirmation, and commits and pushes.
+
+Designed to be invoked by `github-release-engineer` at the end of a release, or standalone. Checksum sourcing priority: checksum file attached to the release → checksums passed by the release engineer → ask user.
+
 ### [agentic-cold-start-audit](https://github.com/blackwell-systems/agentic-cold-start-audit)
 
 Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in sandboxed environments (Docker container, local env var isolation, or git worktree) and produce severity-tiered findings reports with exact reproduction steps.
@@ -28,6 +40,16 @@ The three sandbox modes cover the full range of tool types: container for destru
 ---
 
 ## Workflows
+
+### [Release-Publish](workflows/release-publish/)
+
+1. Run `/release` from the project repo. The release engineer handles pre-flight, changelog promotion, tagging, CI monitoring, and artifact verification.
+2. On success, the release engineer automatically invokes `/homebrew-formula-updater` with the release context. The formula updater reads checksums from the attached `checksums.txt`, updates the tap formula, and pushes.
+3. Run `brew update && brew upgrade <tool>` to confirm the published formula installs cleanly.
+
+The two skills compose because the release engineer's completion report carries exactly what the formula updater needs — version, tag SHA, release URL, and checksums — with no manual translation step. The formula updater's checksum resolution falls back gracefully if the release engineer didn't pass them.
+
+See [the full workflow doc](workflows/release-publish/) for setup, configuration, and what to do when CI fails mid-release.
 
 ### [Audit-Fix-Verify](workflows/audit-fix-verify/)
 
