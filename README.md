@@ -70,16 +70,6 @@ See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, 
 
 ---
 
-## Blog
-
-Three-part series on scout-and-wave:
-
-1. [A Coordination Pattern for Parallel AI Agents](https://blog.blackwell-systems.com/posts/scout-and-wave/) — The pattern, the scout's role, and a worked example of wave structure and file ownership.
-2. [What Dogfooding Taught Us](https://blog.blackwell-systems.com/posts/scout-and-wave-part2/) — The audit-fix-audit loop in practice: overhead measurement, Quick mode for small scopes, and the bootstrap problem (using SAW to build SAW).
-3. [Five Failures, Five Fixes](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/) — How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
-
----
-
 ## How They Compose
 
 Cold-start-audit and scout-and-wave solve adjacent problems, and they're designed to hand off to each other cleanly.
@@ -89,3 +79,13 @@ The audit produces findings in a format the scout can consume directly: severity
 The more important connection is conceptual. The audit's signal is the places where an agent with no context gets stuck or confused. That's not a limitation of the audit methodology — it's the whole point. A new user hitting the same wall is the UX failure you're trying to find. The audit surfaces those failures with exact reproduction steps. SAW then fixes them in parallel with verified coordination.
 
 The pre-implementation check closes the loop on round-over-round efficiency: each re-audit produces a smaller findings set as the tool improves, and SAW filters whatever was already fixed before agents run. The loop gets faster as the tool gets better.
+
+---
+
+## Blog
+
+Three-part series on scout-and-wave:
+
+1. [A Coordination Pattern for Parallel AI Agents](https://blog.blackwell-systems.com/posts/scout-and-wave/) — The pattern, the scout's role, and a worked example of wave structure and file ownership.
+2. [What Dogfooding Taught Us](https://blog.blackwell-systems.com/posts/scout-and-wave-part2/) — The audit-fix-audit loop in practice: overhead measurement, Quick mode for small scopes, and the bootstrap problem (using SAW to build SAW).
+3. [Five Failures, Five Fixes](https://blog.blackwell-systems.com/posts/scout-and-wave-part3/) — How the skill file decomposed from a monolith into composable pieces, and the scout prompt's bug tracker.
