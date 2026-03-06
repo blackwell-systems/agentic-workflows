@@ -12,6 +12,32 @@ Skills are independently useful, but more powerful in combination.
 
 ---
 
+## Composition Philosophy
+
+These skills compose through **compatible data formats**, not hard dependencies. The Unix philosophy for AI workflows: each tool does one thing well, outputs structured artifacts, and remains independently useful.
+
+**Key principles:**
+
+1. **Data contracts over API calls** - Tools agree on artifact formats (IMPL docs, findings reports, release metadata, Dockerfiles), not invocation patterns. The audit doesn't call SAW; it produces findings SAW can consume.
+
+2. **Convention over coupling** - Shared file paths and naming conventions enable composition without dependencies. `Dockerfile.sandbox`, `docs/cold-start-audit.md`, `docs/IMPL/IMPL-*.md` are conventions, not requirements.
+
+3. **Standalone utility** - Every skill works alone. dockerfile-sandbox-gen doesn't need cold-start-audit. The audit doesn't need SAW. Formula updater doesn't need release-engineer. Composition is optional, not mandatory.
+
+4. **Graceful fallbacks** - Skills accept structured input OR manual alternatives. SAW reads audit findings OR requirements docs. Formula updater reads release metadata OR manual checksums. Each tool works even when the previous step didn't run.
+
+5. **Strong data opinions, weak workflow assumptions** - We define what audit findings look like, not when you run audits. We define what IMPL docs contain, not how you trigger SAW. The artifacts are rigid; the workflows are flexible.
+
+**Examples across skills:**
+
+- **audit → SAW**: Findings report format (severity tiers, reproduction steps) maps directly to IMPL doc structure (wave priority, agent assignments)
+- **release-engineer → homebrew-formula-updater**: Release metadata (version, SHA, checksums) feeds formula updates, but updater resolves checksums itself if needed
+- **dockerfile-sandbox-gen → cold-start-audit**: Generates Dockerfile at conventional path, audit consumes via `--dockerfile` parameter that accepts any Dockerfile
+
+This is why there's no "agentic-workflows orchestrator" tool. You compose by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
+
+---
+
 ## Skills
 
 ### [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) (SAW)
