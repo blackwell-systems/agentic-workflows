@@ -32,7 +32,11 @@ These skills compose through **compatible data formats**, not hard dependencies.
 
 - **audit → SAW**: Findings report format (severity tiers, reproduction steps) maps directly to IMPL doc structure (wave priority, agent assignments)
 - **release-engineer → homebrew-formula-updater**: Release metadata (version, SHA, checksums) feeds formula updates, but updater resolves checksums itself if needed
-- **dockerfile-sandbox-gen → cold-start-audit**: Generates Dockerfile at conventional path, audit consumes via `--dockerfile` parameter that accepts any Dockerfile
+- **dockerfile-sandbox-gen → cold-start-audit**: Both implement the "audit-ready Dockerfile convention" independently
+  - Generator produces: multi-stage build, non-root user with sudo, tool at `/usr/local/bin/<name>`
+  - Audit requires: same contract, validates compliance, accepts any conforming Dockerfile
+  - Contract documented in both repos, neither knows the other exists
+  - Validation: `docker run --rm <image> bash -c "whoami && which <tool> && sudo -n true"`
 
 This is why there's no "agentic-workflows orchestrator" tool. You compose by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
 
@@ -76,9 +80,9 @@ The three sandbox modes cover the full range of tool types: container for destru
 
 ### [dockerfile-sandbox-gen](https://github.com/blackwell-systems/dockerfile-sandbox-gen)
 
-Dockerfile generator for sandboxed tool testing. Detects project language (Go, Rust, Python, Node.js), selects the appropriate template, and generates a multi-stage Dockerfile with configurable tool names and build commands. Outputs to `Dockerfile.sandbox` by convention, which cold-start-audit's `--dockerfile` parameter can consume. Independently useful for any workflow requiring containerized tool builds.
+Dockerfile generator implementing the **audit-ready Dockerfile convention**: multi-stage builds with non-root users, sudo access, and standardized tool paths. Detects project language (Go, Rust, Python, Node.js) and generates container definitions that meet the explicit contract requirements for interactive testing environments.
 
-Key features: automatic language detection, multi-stage builds (compile → run separation), template validation, and variable substitution. Composes with cold-start-audit via file convention, not hard dependency.
+Outputs to `Dockerfile.sandbox` with validation commands to verify contract compliance. Independently useful for any workflow requiring containerized tool builds. cold-start-audit consumes Dockerfiles meeting this contract via `--dockerfile` parameter, but neither tool depends on the other.
 
 ---
 
