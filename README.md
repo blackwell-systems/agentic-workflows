@@ -48,6 +48,12 @@ Cold-start UX auditing. Turns AI's lack of context into a feature: agents simula
 
 The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW.
 
+### [dockerfile-sandbox-gen](https://github.com/blackwell-systems/dockerfile-sandbox-gen)
+
+Dockerfile generator for sandboxed tool testing. Detects project language (Go, Rust, Python, Node.js), selects the appropriate template, and generates a multi-stage Dockerfile that builds the tool in an isolated container. Used by cold-start-audit's container mode to create reproducible test environments without modifying the host system.
+
+Key features: automatic language detection, multi-stage builds (compile → run separation), template validation, and variable substitution for tool names and build commands.
+
 ---
 
 ## Workflows
