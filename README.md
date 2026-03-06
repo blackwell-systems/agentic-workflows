@@ -50,9 +50,9 @@ The three sandbox modes cover the full range of tool types: container for destru
 
 ### [dockerfile-sandbox-gen](https://github.com/blackwell-systems/dockerfile-sandbox-gen)
 
-Dockerfile generator for sandboxed tool testing. Detects project language (Go, Rust, Python, Node.js), selects the appropriate template, and generates a multi-stage Dockerfile that builds the tool in an isolated container. Used by cold-start-audit's container mode to create reproducible test environments without modifying the host system.
+Dockerfile generator for sandboxed tool testing. Detects project language (Go, Rust, Python, Node.js), selects the appropriate template, and generates a multi-stage Dockerfile with configurable tool names and build commands. Outputs to `Dockerfile.sandbox` by convention, which cold-start-audit's `--dockerfile` parameter can consume. Independently useful for any workflow requiring containerized tool builds.
 
-Key features: automatic language detection, multi-stage builds (compile → run separation), template validation, and variable substitution for tool names and build commands.
+Key features: automatic language detection, multi-stage builds (compile → run separation), template validation, and variable substitution. Composes with cold-start-audit via file convention, not hard dependency.
 
 ---
 
