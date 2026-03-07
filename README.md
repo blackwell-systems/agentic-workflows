@@ -1,6 +1,10 @@
 # agentic-workflows
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
+[![Agent Skills](badge-agentskills.svg)](https://agentskills.io)
+
+> [!NOTE]
+> All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard — compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
 AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable.
 
@@ -76,7 +80,7 @@ Designed to be invoked by `github-release-engineer` at the end of a release, or 
 
 Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in sandboxed environments (Docker container, local env var isolation, or git worktree) and produce severity-tiered findings reports with exact reproduction steps.
 
-The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW.
+The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW. Includes an Agent Skills-compatible `/cold-start-audit` skill — works with Claude Code, Cursor, GitHub Copilot, and other compatible tools.
 
 ### [dockerfile-sandbox-gen](https://github.com/blackwell-systems/dockerfile-sandbox-gen)
 
