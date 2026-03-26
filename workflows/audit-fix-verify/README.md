@@ -56,7 +56,3 @@ delta report (resolved / new / regressed)
 - **New**: pre-existing issues the first audit missed, now surfaced
 
 The re-audit is not optional. Fixes introduce regressions. The loop exists to catch them.
-
-## Reference example
-
-See [brewprune-example.md](brewprune-example.md) for a complete documented run.
