@@ -46,6 +46,30 @@ This is why there's no "agentic-workflows orchestrator" tool. You compose by run
 
 ---
 
+## Infrastructure Patterns
+
+These patterns enable deterministic skill composition at the technical level:
+
+### [agentskills-subcommand-dispatch](https://github.com/blackwell-systems/agentskills-subcommand-dispatch)
+
+Deterministic progressive disclosure via `triggers:` frontmatter field. Automatically loads context files when subcommands are invoked (e.g., `/saw scout` loads scout-specific references). Eliminates the "read references on demand" fragility where agents may skip documentation or read it too late. Uses `UserPromptSubmit` hook with `additionalContext` to inject references before the orchestrator starts.
+
+**Pattern:** Skill authors declare trigger patterns in `SKILL.md` frontmatter. Platform hook matches user input, injects references, orchestrator receives enhanced context. Three-layer redundancy (hook → script → fallback instructions) ensures cross-platform compatibility.
+
+Used by SAW for orchestrator-level context injection.
+
+### [agentskills-agent-references](https://github.com/blackwell-systems/agentskills-agent-references)
+
+Subagent reference injection via `agent-references:` frontmatter field. Automatically loads context files when specific agent types launch (e.g., wave-agent gets `wave-agent-completion.md`, scout gets `scout-suitability-gate.md`). Uses `PreToolUse/Agent` hook with `updatedInput` to modify subagent prompts before launch.
+
+**Pattern:** Skill authors declare agent-type-to-reference mappings in frontmatter. Platform hook fires before subagent launch, reads declarations, injects matching references into prompt. Supports conditional injection via `when:` regex patterns. Three-layer redundancy ensures portability across Agent Skills-compatible platforms with multi-agent support.
+
+Used by SAW for agent-type-specific context injection. Production use reduced agent type prompt sizes by 40-60%.
+
+**Why these matter:** Progressive disclosure without these patterns relies on agents reading references on demand, which is non-deterministic. Agents may skip critical documentation, read it after making mistakes, or fail to load it at all. These patterns make reference loading deterministic: content is present in context before execution starts. The result is reliable skill behavior across sessions and platforms.
+
+---
+
 ## Skills
 
 ### [scout-and-wave](https://github.com/blackwell-systems/scout-and-wave) (SAW)
