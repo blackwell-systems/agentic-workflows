@@ -4,9 +4,9 @@
 [![Agent Skills](badge-agentskills.svg)](https://agentskills.io)
 
 > [!NOTE]
-> All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard — compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
+> All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
-AI agents compose through compatible data formats. Skills output structured artifacts that other skills consume. No hard dependencies, no API contracts—just convention-based interop.
+AI agents compose through compatible data formats. Skills output structured artifacts that other skills consume. No hard dependencies, no API contracts - just convention-based interop.
 
 Each skill is a protocol-bearing unit: explicit inputs, explicit outputs, defined behavior at its boundaries. The LLM executes the steps; the protocol enforces the interface. Handoffs become as deterministic as function calls, even though both sides run on natural language instructions.
 
@@ -102,7 +102,7 @@ Designed to be invoked by `github-release-engineer` at the end of a release, or 
 
 Cold-start UX auditing. Turns AI's lack of context into a feature: agents simulate new users in sandboxed environments (Docker container, local env var isolation, or git worktree) and produce severity-tiered findings reports with exact reproduction steps.
 
-The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW. Includes an Agent Skills-compatible `/cold-start-audit` skill — works with Claude Code, Cursor, GitHub Copilot, and other compatible tools.
+The three sandbox modes cover the full range of tool types: container for destructive operations, local for tools with redirectable state, worktree for directory-scoped tools. Output is a structured findings report (severity tier, affected area, reproduction steps) formatted to feed directly into SAW. Includes an Agent Skills-compatible `/cold-start-audit` skill - works with Claude Code, Cursor, GitHub Copilot, and other compatible tools.
 
 ### [dockerfile-sandbox-gen](https://github.com/blackwell-systems/dockerfile-sandbox-gen)
 
@@ -132,7 +132,7 @@ See [the full workflow doc](workflows/release-publish/) for setup, configuration
 
 The two tools compose because their artifact formats are compatible. The audit produces severity-tiered findings grouped by area; the SAW scout reads those tiers and groupings directly to decide wave order and agent assignments. No manual translation step.
 
-The deeper insight: the audit's lack-of-context is the UX signal. An agent that can't figure out what to do next is faithfully simulating a new user hitting the same wall. SAW's pre-implementation check then filters already-fixed items before agents run, so each round only works on what's actually broken.
+The audit's lack-of-context is the UX signal. An agent that can't figure out what to do next is faithfully simulating a new user hitting the same wall. SAW's pre-implementation check then filters already-fixed items before agents run, so each round only works on what's actually broken.
 
 See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, sandbox mode selection, severity-to-wave mapping, and what the re-audit output means.
 
