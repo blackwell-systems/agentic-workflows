@@ -21,7 +21,7 @@ These are the working patterns I rely on to:
 - ship releases and update downstream packages
 - generate reproducible, isolated test environments
 
-Each pattern produces structured output that becomes input to the next step.
+Each pattern produces structured output that becomes input to the next step in the loop.
 
 ## Why these skills belong together
 
