@@ -9,10 +9,12 @@ Composable agent skills built from the patterns I use in daily development: cold
 > All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
 These are the working patterns I rely on to:
-- audit what new users will hit first
+- audit what new users hit first
 - turn findings into safe, parallel fix waves
 - ship releases and update downstream packages
-- generate reproducible test environments
+- generate reproducible, isolated test environments
+
+Each pattern produces structured output that becomes input to the next step.
 
 ## Why these skills belong together
 
@@ -20,11 +22,17 @@ I use these patterns together in normal development work. Audit findings become 
 
 ---
 
+## The development loop
+
+Audit → Plan fixes → Execute in parallel → Verify → Release
+
+---
+
 ## Common development patterns
 
 ### I need to see what a new user will hit first
 
-Run `agentic-cold-start-audit` against your tool to produce a structured findings report with severity tiers and exact reproduction steps. Then feed that report into `scout-and-wave` to plan and execute fixes in waves. Re-audit afterward to verify what changed.
+Run `agentic-cold-start-audit` to produce a structured findings report with severity tiers and exact reproduction steps. Feed that report into `scout-and-wave` to plan and execute fixes in waves, then re-audit to verify what changed.
 
 → [Full workflow doc](workflows/audit-fix-verify/)
 
@@ -112,9 +120,9 @@ See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, 
 
 ## How composition works
 
-These skills compose through compatible data formats, not hard dependencies. The Unix philosophy for AI workflows: each tool does one thing well, outputs structured artifacts, and remains independently useful.
+These skills compose through compatible data formats, not hard dependencies.
 
-Each skill is independently useful, but more powerful in combination. The audit doesn't call SAW directly; it produces findings SAW can consume. The release engineer doesn't require the formula updater; it produces release context the updater can use. `dockerfile-sandbox-gen` and `agentic-cold-start-audit` both implement the same audit-ready Dockerfile convention without directly depending on each other.
+Each tool does one thing well, produces structured output, and remains independently useful. The audit doesn't call SAW directly; it produces findings SAW can consume. The release engineer doesn't require the formula updater; it produces release context the updater can use. `dockerfile-sandbox-gen` and `agentic-cold-start-audit` both implement the same audit-ready Dockerfile convention without directly depending on each other.
 
 **Key principles:**
 
@@ -123,7 +131,7 @@ Each skill is independently useful, but more powerful in combination. The audit 
 - **Standalone utility** - Every skill works alone. Composition is optional, not mandatory.
 - **Graceful fallbacks** - Skills accept structured input OR manual alternatives.
 
-This is why there's no "agentic-workflows orchestrator" tool. You compose by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
+There is no central orchestrator. You compose workflows by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
 
 ---
 
