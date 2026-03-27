@@ -6,11 +6,9 @@
 > [!NOTE]
 > All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard — compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
-AI agents compose. A cold-start audit finds what's broken. A parallel fix wave repairs it. A re-audit confirms no regressions were introduced. This repo documents the skills and workflows that make that loop repeatable.
+AI agents compose through compatible data formats. Skills output structured artifacts that other skills consume. No hard dependencies, no API contracts—just convention-based interop.
 
 Each skill is a protocol-bearing unit: explicit inputs, explicit outputs, defined behavior at its boundaries. The LLM executes the steps; the protocol enforces the interface. Handoffs become as deterministic as function calls, even though both sides run on natural language instructions.
-
-For multi-agent work, the same principle applies at the coordination layer. SAW's IMPL doc is a shared contract all agents write to and read from. Parallel execution is safe not because agents trust each other, but because they're all operating against the same structure.
 
 Skills are independently useful, but more powerful in combination.
 
@@ -56,7 +54,7 @@ Deterministic progressive disclosure via `triggers:` frontmatter field. Automati
 
 **Pattern:** Skill authors declare trigger patterns in `SKILL.md` frontmatter. Platform hook matches user input, injects references, orchestrator receives enhanced context. Three-layer redundancy (hook → script → fallback instructions) ensures cross-platform compatibility.
 
-Used by SAW for orchestrator-level context injection.
+**Example:** scout-and-wave loads scout-specific references when `/saw scout` is invoked, wave-specific references when `/saw wave` is invoked.
 
 ### [agentskills-agent-references](https://github.com/blackwell-systems/agentskills-agent-references)
 
@@ -64,7 +62,7 @@ Subagent reference injection via `agent-references:` frontmatter field. Automati
 
 **Pattern:** Skill authors declare agent-type-to-reference mappings in frontmatter. Platform hook fires before subagent launch, reads declarations, injects matching references into prompt. Supports conditional injection via `when:` regex patterns. Three-layer redundancy ensures portability across Agent Skills-compatible platforms with multi-agent support.
 
-Used by SAW for agent-type-specific context injection. Production use reduced agent type prompt sizes by 40-60%.
+**Example:** scout-and-wave injects `wave-agent-completion.md` when launching wave agents, `scout-suitability-gate.md` when launching scouts. Production use reduced agent type prompt sizes by 40-60%.
 
 **Why these matter:** Progressive disclosure without these patterns relies on agents reading references on demand, which is non-deterministic. Agents may skip critical documentation, read it after making mistakes, or fail to load it at all. These patterns make reference loading deterministic: content is present in context before execution starts. The result is reliable skill behavior across sessions and platforms.
 
@@ -137,18 +135,6 @@ The two tools compose because their artifact formats are compatible. The audit p
 The deeper insight: the audit's lack-of-context is the UX signal. An agent that can't figure out what to do next is faithfully simulating a new user hitting the same wall. SAW's pre-implementation check then filters already-fixed items before agents run, so each round only works on what's actually broken.
 
 See [the full workflow doc](workflows/audit-fix-verify/) for the complete loop, sandbox mode selection, severity-to-wave mapping, and what the re-audit output means.
-
----
-
-## How They Compose
-
-Cold-start-audit and scout-and-wave solve adjacent problems, and they're designed to hand off to each other cleanly.
-
-The audit produces findings in a format the scout can consume directly: severity tiers map to wave priority (UX-critical → Wave 0 or 1, UX-improvement → Wave 1 or 2, UX-polish → last), and area groupings map to agent assignments. The scout doesn't need a reformatted brief. It reads the audit report as-is.
-
-The more important connection is conceptual. The audit's signal is the places where an agent with no context gets stuck or confused. That's not a limitation of the audit methodology. It's the whole point. A new user hitting the same wall is the UX failure you're trying to find. The audit surfaces those failures with exact reproduction steps. SAW then fixes them in parallel with verified coordination.
-
-The pre-implementation check closes the loop on round-over-round efficiency: each re-audit produces a smaller findings set as the tool improves, and SAW filters whatever was already fixed before agents run. The loop gets faster as the tool gets better.
 
 ---
 
