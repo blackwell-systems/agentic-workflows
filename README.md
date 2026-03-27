@@ -46,25 +46,27 @@ This is why there's no "agentic-workflows orchestrator" tool. You compose by run
 
 ## Infrastructure Patterns
 
-These patterns enable deterministic skill composition at the technical level:
+These patterns enable deterministic skill composition at the technical level. Progressive disclosure without these patterns relies on agents reading references on demand, which is non-deterministic. Agents may skip critical documentation, read it after making mistakes, or fail to load it at all. These patterns make reference loading deterministic: content is present in context before execution starts.
 
-### [agentskills-subcommand-dispatch](https://github.com/blackwell-systems/agentskills-subcommand-dispatch)
+### [Subcommand Dispatch](infrastructure/subcommand-dispatch.md)
 
-Deterministic progressive disclosure via `triggers:` frontmatter field. Automatically loads context files when subcommands are invoked (e.g., `/saw scout` loads scout-specific references). Eliminates the "read references on demand" fragility where agents may skip documentation or read it too late. Uses `UserPromptSubmit` hook with `additionalContext` to inject references before the orchestrator starts.
+**Repository:** [agentskills-subcommand-dispatch](https://github.com/blackwell-systems/agentskills-subcommand-dispatch)
 
-**Pattern:** Skill authors declare trigger patterns in `SKILL.md` frontmatter. Platform hook matches user input, injects references, orchestrator receives enhanced context. Three-layer redundancy (hook → script → fallback instructions) ensures cross-platform compatibility.
+Deterministic progressive disclosure at the orchestrator level via `triggers:` frontmatter field. When a user types `/saw scout`, the platform automatically loads scout-specific references before the orchestrator starts. Uses `UserPromptSubmit` hook with `additionalContext` injection.
 
 **Example:** scout-and-wave loads scout-specific references when `/saw scout` is invoked, wave-specific references when `/saw wave` is invoked.
 
-### [agentskills-agent-references](https://github.com/blackwell-systems/agentskills-agent-references)
+→ [Full documentation](infrastructure/subcommand-dispatch.md)
 
-Subagent reference injection via `agent-references:` frontmatter field. Automatically loads context files when specific agent types launch (e.g., wave-agent gets `wave-agent-completion.md`, scout gets `scout-suitability-gate.md`). Uses `PreToolUse/Agent` hook with `updatedInput` to modify subagent prompts before launch.
+### [Agent References](infrastructure/agent-references.md)
 
-**Pattern:** Skill authors declare agent-type-to-reference mappings in frontmatter. Platform hook fires before subagent launch, reads declarations, injects matching references into prompt. Supports conditional injection via `when:` regex patterns. Three-layer redundancy ensures portability across Agent Skills-compatible platforms with multi-agent support.
+**Repository:** [agentskills-agent-references](https://github.com/blackwell-systems/agentskills-agent-references)
+
+Deterministic reference injection at the subagent level via `agent-references:` frontmatter field. When an orchestrator launches a wave-agent, the platform automatically injects wave-agent-specific references before the subagent starts. Uses `PreToolUse/Agent` hook with `updatedInput` modification. Supports conditional injection via `when:` regex patterns.
 
 **Example:** scout-and-wave injects `wave-agent-completion.md` when launching wave agents, `scout-suitability-gate.md` when launching scouts. Production use reduced agent type prompt sizes by 40-60%.
 
-**Why these matter:** Progressive disclosure without these patterns relies on agents reading references on demand, which is non-deterministic. Agents may skip critical documentation, read it after making mistakes, or fail to load it at all. These patterns make reference loading deterministic: content is present in context before execution starts. The result is reliable skill behavior across sessions and platforms.
+→ [Full documentation](infrastructure/agent-references.md)
 
 ---
 
