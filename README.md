@@ -3,36 +3,38 @@
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Agent Skills](badge-agentskills.svg)](https://agentskills.io)
 
-Agent Skills workflows for real software work: cold-start audits, parallel fix execution, automated releases, and sandbox generation.
+Composable agent skills built from the patterns I use in daily development: cold-start audits, parallel fix execution, release automation, and sandbox generation.
 
 > [!NOTE]
 > All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
-Use these workflows to:
-- audit first-time user experience in clean environments
+These are the working patterns I rely on to:
+- audit what new users will hit first
 - turn findings into safe, parallel fix waves
-- automate releases and downstream package updates
-- generate audit-ready sandbox Dockerfiles
+- ship releases and update downstream packages
+- generate reproducible test environments
+
+## Why these skills belong together
+
+I use these patterns together in normal development work. Audit findings become inputs to fix planning. Release outputs become inputs to distribution updates. Sandbox generation supports repeatable testing and auditing. Each skill works independently, but they compose naturally because they solve adjacent problems in the same workflow.
 
 ---
 
-## Start here
+## Common development patterns
 
-Choose the workflow that matches what you need.
-
-### Fix onboarding and UX issues
+### I need to see what a new user will hit first
 
 Run `agentic-cold-start-audit` against your tool to produce a structured findings report with severity tiers and exact reproduction steps. Then feed that report into `scout-and-wave` to plan and execute fixes in waves. Re-audit afterward to verify what changed.
 
 → [Full workflow doc](workflows/audit-fix-verify/)
 
-### Ship a release
+### I need to ship a release cleanly
 
 Run `github-release-engineer` from the project repo. It handles pre-flight validation, changelog promotion, tagging, CI monitoring, artifact verification, and hands off release context to `homebrew-formula-updater`.
 
 → [Full workflow doc](workflows/release-publish/)
 
-### Generate a sandbox Dockerfile
+### I need a reproducible isolated environment
 
 Run `dockerfile-sandbox-gen` to produce `Dockerfile.sandbox` for isolated, interactive testing environments that satisfy the audit-ready Dockerfile convention.
 
