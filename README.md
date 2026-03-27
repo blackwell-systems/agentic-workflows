@@ -8,22 +8,15 @@ Composable agent skills extracted from real daily development patterns: cold-sta
 > [!NOTE]
 > All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
-## What this gives you
-
-- A repeatable audit → fix → verify → release loop
-- Safe parallel execution via scout-and-wave
-- Deterministic release pipelines
-- Reproducible sandbox environments
-
 These are the working patterns I rely on to:
 - audit what new users hit first
 - turn findings into safe, parallel fix waves
 - ship releases and update downstream packages
 - generate reproducible, isolated test environments
 
-Each pattern produces structured output that becomes input to the next step in the loop.
+Each pattern produces structured output that feeds the next step in the loop.
 
-## Why these skills belong together
+## How this fits together
 
 I use these patterns together in normal development work.
 
