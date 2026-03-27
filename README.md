@@ -3,10 +3,17 @@
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Agent Skills](badge-agentskills.svg)](https://agentskills.io)
 
-Composable agent skills built from the patterns I use in daily development: cold-start audits, parallel fix execution, release automation, and sandbox generation.
+Composable agent skills extracted from real daily development patterns: cold-start audits, parallel fix execution, release automation, and sandbox generation.
 
 > [!NOTE]
 > All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
+
+## What this gives you
+
+- A repeatable audit → fix → verify → release loop
+- Safe parallel execution via scout-and-wave
+- Deterministic release pipelines
+- Reproducible sandbox environments
 
 These are the working patterns I rely on to:
 - audit what new users hit first
@@ -18,13 +25,22 @@ Each pattern produces structured output that becomes input to the next step.
 
 ## Why these skills belong together
 
-I use these patterns together in normal development work. Audit findings become inputs to fix planning. Release outputs become inputs to distribution updates. Sandbox generation supports repeatable testing and auditing. Each skill works independently, but they compose naturally because they solve adjacent problems in the same workflow.
+I use these patterns together in normal development work.
+
+Audit findings become inputs to fix planning.
+Fix execution produces changes to verify.
+Release outputs become inputs to distribution updates.
+Sandbox generation enables repeatable testing across all steps.
+
+Each skill works independently, but they compose naturally because they solve adjacent problems in the same workflow.
 
 ---
 
 ## The development loop
 
-Audit → Plan fixes → Execute in parallel → Verify → Release
+**Audit → Plan → Execute → Verify → Release**
+
+This replaces ad-hoc agent usage with a structured, repeatable development cycle.
 
 ---
 
@@ -131,7 +147,7 @@ Each tool does one thing well, produces structured output, and remains independe
 - **Standalone utility** - Every skill works alone. Composition is optional, not mandatory.
 - **Graceful fallbacks** - Skills accept structured input OR manual alternatives.
 
-There is no central orchestrator. You compose workflows by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
+There is no central orchestrator. Workflows are composed by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
 
 ---
 
