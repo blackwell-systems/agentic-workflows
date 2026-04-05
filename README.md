@@ -1,12 +1,8 @@
 # agentic-workflows
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
-[![Agent Skills](badge-agentskills.svg)](https://agentskills.io)
 
 Composable agent skills extracted from real daily development patterns: cold-start audits, parallel fix execution, release automation, and sandbox generation.
-
-> [!NOTE]
-> All skills in this ecosystem follow the [Agent Skills](https://agentskills.io) open standard - compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible tools. Install any skill in your preferred tool using the same directory structure.
 
 These are the working patterns I rely on to:
 - audit what new users hit first
@@ -142,29 +138,4 @@ Each tool does one thing well, produces structured output, and remains independe
 
 There is no central orchestrator. Workflows are composed by running skills in sequence and letting their outputs feed the next step. The orchestrator is you (or another AI agent reading these workflows).
 
----
-
-## Infrastructure Patterns
-
-These patterns enable deterministic skill composition by ensuring the right references are present before execution begins, instead of relying on agents to discover them on demand.
-
-### [Subcommand Dispatch](infrastructure/subcommand-dispatch.md)
-
-**Repository:** [agentskills-subcommand-dispatch](https://github.com/blackwell-systems/agentskills-subcommand-dispatch)
-
-Deterministic progressive disclosure at the orchestrator level via `triggers:` frontmatter field. When a user types `/saw scout`, the platform automatically loads scout-specific references before the orchestrator starts. Uses `UserPromptSubmit` hook with `additionalContext` injection.
-
-**Example:** scout-and-wave loads scout-specific references when `/saw scout` is invoked, wave-specific references when `/saw wave` is invoked.
-
-→ [Full documentation](infrastructure/subcommand-dispatch.md)
-
-### [Agent References](infrastructure/agent-references.md)
-
-**Repository:** [agentskills-agent-references](https://github.com/blackwell-systems/agentskills-agent-references)
-
-Deterministic reference injection at the subagent level via `agent-references:` frontmatter field. When an orchestrator launches a wave-agent, the platform automatically injects wave-agent-specific references before the subagent starts. Uses `PreToolUse/Agent` hook with `updatedInput` modification. Supports conditional injection via `when:` regex patterns.
-
-**Example:** scout-and-wave injects `wave-agent-completion.md` when launching wave agents, `scout-suitability-gate.md` when launching scouts. Production use reduced agent type prompt sizes by 40-60%.
-
-→ [Full documentation](infrastructure/agent-references.md)
 
